@@ -448,6 +448,7 @@ public class AltaUsuario extends javax.swing.JFrame {
       String contraseña = txtcontraseña.getText();
       String confirmarcontraseña = txtconfirmarcontraseña.getText();
     
+      
       if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || nombreusuario.isEmpty() || contraseña.isEmpty() || confirmarcontraseña.isEmpty())
       { 
           JOptionPane.showMessageDialog(null,"Complete los campos");
@@ -459,7 +460,11 @@ public class AltaUsuario extends javax.swing.JFrame {
           
       }
       if (confirmarcontraseña.equals(contraseña)){
-          JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden");
+          JOptionPane.showMessageDialog(null,"Se ha registrado con exito");
+          
+      }
+      else {
+          JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
       }
           
               
