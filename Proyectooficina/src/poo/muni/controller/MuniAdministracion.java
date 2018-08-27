@@ -4,21 +4,74 @@
  * and open the template in the editor.
  */
 package poo.muni.controller;
-import poo.muni.ui.AltaUsuario;
+
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import net.sf.ehcache.hibernate.HibernateUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import poo.muni.Usuario;
+import sun.util.calendar.BaseCalendar.Date;
+
+
+
 
 /**
  *
- * @author oficina2
+ * @author Acer
  */
 public class MuniAdministracion {
-
+ private static SessionFactory factory; 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
+        
       
-        AltaUsuario Alta = new AltaUsuario();
-        Alta.setVisible(true);
-    }
+  
+  
+    try {
+        
+         factory = new AnnotationConfiguration().configure().
+                   //addPackage("com.xyz") //add package if used.
+                   addAnnotatedClass(Usuario.class).
+                   buildSessionFactory();
+      } 
+    catch (Throwable ex) { 
+         System.err.println("Failed to create sessionFactory object." + ex);
+         throw new ExceptionInInitializerError(ex); 
+      }
     
-}
+       new GestorDeEmpleo(factory).run();
+      
+   }
+ 
+        
+//    ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
+//    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+//        SessionFactory sessionFactory = null;
+//        
+//        // A SessionFactory is set up once for an application!
+//	final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+//			.configure("resources/hibernate.cfg.xml") // configures settings from hibernate.cfg.xml
+//			.build();
+//	try {
+//            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+//	}
+//	catch (Exception e) {
+//            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+//            // so destroy it manually.
+//            StandardServiceRegistryBuilder.destroy( registry );
+//            
+//            throw e;
+//	} 
+    }

@@ -5,15 +5,33 @@
  */
 package poo.muni;
 
+ 
+import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Capacitacion6
  */
+@Entity
+@Table(name = "persona")
 public abstract class Persona {
+    
+    @Id
+    @GeneratedValue
+    @Column(name = "nombre")
     String nombre;
+    @Column(name = "cuil_cuit")
     String cuil_cuit;
+    @Column(name = "domicilio")
     String domicilio;
+    @Column(name = "telefono")
     int telefono;
+    @Column(name = "email")
     String email;
 
     public Persona() {
