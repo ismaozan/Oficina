@@ -5,6 +5,8 @@
  */
 package poo.muni.ui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import poo.muni.controller.GestorDeEmpleo;
 
@@ -443,16 +445,16 @@ public class AltaUsuario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(97, 97, 97))
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addGap(35, 35, 35))
         );
 
         pack();
@@ -469,15 +471,15 @@ private void GuardarAltaUsuario(){
         
     
         
-      String nombre = txtnombre.getText();
-      String apellido = txtapellido.getText();
-      String email = txtemail.getText();
-      String nombreusuario = txtnombreusuario.getText();
-      String contraseña = txtcontraseña.getText();
-      String confirmarcontraseña = txtconfirmarcontraseña.getText();
+      String nombre = txtnombre.getText().trim();
+      String apellido = txtapellido.getText().trim();
+      String email = txtemail.getText().trim();
+      String nombreUsuario = txtnombreusuario.getText().trim();
+      String contraseña = txtcontraseña.getText().trim();
+      String confirmarcontraseña = txtconfirmarcontraseña.getText().trim();
     
       
-      if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || nombreusuario.isEmpty() || contraseña.isEmpty() || confirmarcontraseña.isEmpty())
+      if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || nombreUsuario.isEmpty() || contraseña.isEmpty() || confirmarcontraseña.isEmpty())
       { 
           JOptionPane.showMessageDialog(null,"Complete los campos");
           return;
@@ -488,27 +490,57 @@ private void GuardarAltaUsuario(){
           return;
       }
       
+       if (!verificaremail(email)) {
+        JOptionPane.showMessageDialog(null,"El email ingresado es inválido","error",JOptionPane.ERROR_MESSAGE);  
+        return;
+       }
+        if (nombreUsuario.contains(" ")){
+            JOptionPane.showMessageDialog(null,"No use espacios");
+        return;
+        }
+        if(!gestor.isUsuarioExistente(nombreUsuario)){
+            JOptionPane.showMessageDialog(null,"El usuario ya existe");
+            return;
+        }
+            
       if (!confirmarcontraseña.equals(contraseña) ){
           JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden");
           return;
       }
        
        
-       if (gestor.GuardarUsuario(nombre, apellido, nombreusuario,  email, contraseña))
+       if (gestor.GuardarUsuario(nombre, apellido, nombreUsuario,  email, contraseña))
        {
            JOptionPane.showMessageDialog(null,"Se ha registrado con exito");
        }
        else{
            JOptionPane.showMessageDialog(null,"No se ha podico registrar");
-       }  
-       
-        
+           return;
+       }
+       }
+         public boolean verificaremail(String email) {
+ 
+        // Patrón para validar el email
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+                
+ 
+        Matcher mather = pattern.matcher(email);
+
+        return mather.matches();
          
-              
+
+
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        // TODO add your handling code here:
+      
+        int x = JOptionPane.showConfirmDialog(this, "¿Desea SALIR?");
+        if (JOptionPane.OK_OPTION == x) {
+            System.exit(0);
+        } 
+ 
+           // TODO add your handling code here:
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
@@ -520,11 +552,11 @@ private void GuardarAltaUsuario(){
     }//GEN-LAST:event_txtcontraseñaActionPerformed
 
     private void txtemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtemailActionPerformed
-        // TODO add your handling code here:
+  
     }//GEN-LAST:event_txtemailActionPerformed
 
     private void txtemailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusLost
-        // TODO add your handling code here:
+       // TODO add your handling code here:
     }//GEN-LAST:event_txtemailFocusLost
 
    

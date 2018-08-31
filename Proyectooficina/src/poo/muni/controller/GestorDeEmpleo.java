@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package poo.muni.controller;
+import java.sql.Connection;
 import org.hibernate.SessionFactory;
 import poo.muni.Usuario;
 import poo.muni.ui.AltaUsuario;
@@ -17,9 +18,11 @@ import poo.muni.dao.UsuarioDao;
 public class GestorDeEmpleo {
 private UsuarioDao usuarioDao;
 
-    public GestorDeEmpleo(SessionFactory sessionFactory) {
-        this.usuarioDao = new UsuarioDao(sessionFactory);
+    public GestorDeEmpleo(SessionFactory sessionFactory,Connection connection) {
+        this.usuarioDao = new UsuarioDao(sessionFactory, connection);
     }
+
+   
     
     
     public void run (){
@@ -36,7 +39,9 @@ private UsuarioDao usuarioDao;
        
        
     }       
-            
+       public boolean isUsuarioExistente(String nombreUsuario){
+           return usuarioDao.isUsuarioExistente(nombreUsuario);
+       }     
 }
 
 

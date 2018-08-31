@@ -7,6 +7,8 @@ package poo.muni.controller;
 
 
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import net.sf.ehcache.hibernate.HibernateUtil;
@@ -31,7 +33,7 @@ import sun.util.calendar.BaseCalendar.Date;
  */
 public class MuniAdministracion {
  private static SessionFactory factory; 
-    /**
+    private static Connection connection;/**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -45,15 +47,25 @@ public class MuniAdministracion {
                    //addPackage("com.xyz") //add package if used.
                    addAnnotatedClass(Usuario.class).
                    buildSessionFactory();
+                   getConnection();
       } 
     catch (Throwable ex) { 
          System.err.println("Failed to create sessionFactory object." + ex);
          throw new ExceptionInInitializerError(ex); 
       }
     
-       new GestorDeEmpleo(factory).run();
+       new GestorDeEmpleo(factory, connection).run();
       
    }
+    public static Connection getConnection()throws Exception {
+        if(connection == null)
+        {
+            String url = "jdbc:mysql://localhost:3306/oficinadeempleo";
+            connection = DriverManager.getConnection(url,"root","root");
+        }
+     return connection;
+        
+    }
  
         
 //    ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
